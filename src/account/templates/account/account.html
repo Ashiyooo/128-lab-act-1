@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style type="text/css">
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="StudentID"] {
+  margin-bottom: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="text"] {
+  margin-bottom: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.h3{
+  text-align: center;
+}
+.blog-posts{
+  max-width: 500px;
+  width: 100%;
+  margin: auto;
+}
+</style>
+<main class="form-signin" >
+  <form method="post">
+  	{% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal">Account</h1>
+
+    <div class="form-floating">
+      <input type="StudentID" name="std_id" class="form-control" id="floatingInput" placeholder="20******" value={{account_form.initial.std_id}}>
+      <label for="floatingInput">Student ID</label>
+    </div>
+    <div class="form-floating">
+      <input type="email" name="upmail" class="form-control" id="floatingInput" placeholder="name@up.edu.ph" value={{account_form.initial.upmail}}>
+      <label for="floatingInput">UPmail</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username" value={{account_form.initial.username}}>
+      <label for="inputName">Username</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" name="first_name" class="form-control" id="inputFirstname" placeholder="First name" value={{account_form.initial.first_name}}>
+      <label for="inputFirstname">First name</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" name="last_name" class="form-control" id="inputLastname" placeholder="Last name" value={{account_form.initial.last_name}}>
+      <label for="inputLastname">Last name</label>
+    </div>
+    {% for field in account_form %}
+    	{% for error in field.errors %}
+			<small style="color: red;">{{error}}</small>
+		{% endfor %}
+	{% endfor %}
+	{% if account_form.non_field_errors %}
+		<div style="color:red;">
+			<p>{{account_form.non_field_errors}}</p>
+		</div>
+	{% endif %}
+
+	{% if success_message %}
+		<div style="color:green; text-align: center;">
+			<p>{{success_message}}</p>
+		</div>
+	{% endif %}
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Save Changes</button>
+  </form>
+</main>
+
+<div class="d-flex flex-column">
+  <a class="m-auto" href="{% url 'password_change' %}">Change Password</a>
+</div>
+
+<div class="container mt-4 p-4">
+  <div class="row">
+    <div class="blog-posts">
+      <h3 class="mb-3 font-weight-normal">Blog Posts</h3>
+      {% if blog_posts %}
+      <ul>
+        {% for post in blog_posts %}
+          <a href="{% url 'blog:detail' post.slug %}" style="text-decoration: none;">
+            <li class="list-group-item">{{post}}</li>
+          </a>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p> You haven't created a post yet.</p>
+      <p> Create a post <a href="{% url 'blog:create' %}">here</a></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

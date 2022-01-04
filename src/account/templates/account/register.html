@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="StudentID"] {
+  margin-bottom: 5px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="text"] {
+  margin-bottom: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.h3{
+  text-align: center;
+}
+</style>
+<main class="form-signin" >
+  <form method="post">
+    {% csrf_token %}
+    <div class="d-flex flex-column pb-3">
+      <img class="img-fluid mx-auto d-block" src="{% static 'UP_Visayas_Logo.png' %}" alt="UPVisayas" width="72" height="72">      
+    </div>
+    <h1 class="h3 mb-3 fw-normal">Register an Account</h1>
+
+    <div class="form-floating">
+      <input type="StudentID" name="std_id" class="form-control" id="floatingInput" placeholder="20******">
+      <label for="floatingInput">Student ID</label>
+    </div>
+    <div class="form-floating">
+      <input type="email" name="upmail" class="form-control" id="floatingInput" placeholder="name@up.edu.ph">
+      <label for="floatingInput">UPmail</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" name="username" class="form-control" id="inputUsername" placeholder="Username">
+      <label for="inputUsername">Username</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" name="first_name" class="form-control" id="inputFirstname" placeholder="First name">
+      <label for="inputFirstname">First name</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="text" name="last_name" class="form-control" id="inputLastname" placeholder="Last name">
+      <label for="inputLastname">Last name</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="password" name="password1" class="form-control" id="inputPassword1" placeholder="Password">
+      <label for="inputPassword1">Password</label>
+    </div>
+
+    <div class="form-floating">
+      <input type="password" name="password2" class="form-control" id="inputPassword2" placeholder="Confirm Password">
+      <label for="inputPassword2">Confirm Password</label>
+    </div>
+
+
+    {% for field in registration_form %}
+    	{% for error in field.errors %}
+			<small style="color: red;">{{error}}</small>
+		{% endfor %}
+	{% endfor%}
+	{% if registration_form.non_field_errors %}
+		<div style="color:red;">
+			<p>{{registration_form.non_field_errors}}</p>
+		</div>
+	{% endif %}
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+  </form>
+</main>
+
+{% endblock content %}
